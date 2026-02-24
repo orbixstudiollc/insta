@@ -128,55 +128,63 @@ export default function ShotsPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {shots.map((shot) => (
-              <div
-                key={shot.id}
-                className="bg-white rounded-xl p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
-              >
-                <div className="w-24 h-18 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    src={shot.images?.teaser || shot.images?.normal || ''}
-                    alt={shot.title || 'Shot'}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 truncate">
-                    {shot.title}
-                  </h3>
-                  <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
-                    <span>{(shot.likes_count ?? 0).toLocaleString()} likes</span>
-                    <span>{(shot.views_count ?? 0).toLocaleString()} views</span>
-                    <span>{shot.comments_count ?? 0} comments</span>
-                  </div>
-                  {shot.tags && shot.tags.length > 0 && (
-                    <div className="flex gap-2 mt-2">
-                      {shot.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 bg-gray-100 rounded text-xs text-gray-600"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {shot.tags.length > 3 && (
-                        <span className="text-xs text-gray-400">
-                          +{shot.tags.length - 3} more
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <Link
-                  href={shot.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-gray-400 hover:text-dribbble-pink transition-colors"
+            {shots.map((shot) => {
+              const shotData = shot as any
+              const likesCount = shotData.likes_count ?? shotData.likes ?? 0
+              const viewsCount = shotData.views_count ?? shotData.views ?? 0
+              const commentsCount = shotData.comments_count ?? shotData.comments ?? 0
+              const imageUrl = shot.images?.teaser || shot.images?.normal || shotData.image_url || ''
+
+              return (
+                <div
+                  key={shot.id}
+                  className="bg-white rounded-xl p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
                 >
-                  <ExternalLink className="w-5 h-5" />
-                </Link>
-              </div>
-            ))}
+                  <div className="w-24 h-18 rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={imageUrl}
+                      alt={shot.title || 'Shot'}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 truncate">
+                      {shot.title}
+                    </h3>
+                    <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                      <span>{likesCount.toLocaleString()} likes</span>
+                      <span>{viewsCount.toLocaleString()} views</span>
+                      <span>{commentsCount} comments</span>
+                    </div>
+                    {shot.tags && shot.tags.length > 0 && (
+                      <div className="flex gap-2 mt-2">
+                        {shot.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2 py-0.5 bg-gray-100 rounded text-xs text-gray-600"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {shot.tags.length > 3 && (
+                          <span className="text-xs text-gray-400">
+                            +{shot.tags.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <Link
+                    href={shot.html_url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 text-gray-400 hover:text-dribbble-pink transition-colors"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                  </Link>
+                </div>
+              )
+            })}
           </div>
         )}
 

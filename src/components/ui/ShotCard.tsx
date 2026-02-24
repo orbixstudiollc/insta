@@ -12,11 +12,18 @@ interface ShotCardProps {
 }
 
 export default function ShotCard({ shot, showUser = false }: ShotCardProps) {
+  // Handle both API v1 and v2 field names
+  const shotData = shot as any
+  const likesCount = shotData.likes_count ?? shotData.likes ?? 0
+  const viewsCount = shotData.views_count ?? shotData.views ?? 0
+  const commentsCount = shotData.comments_count ?? shotData.comments ?? 0
+  const imageUrl = shot.images?.normal || shot.images?.teaser || shotData.image_url || ''
+
   return (
     <div className="shot-card group">
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
-          src={shot.images?.normal || shot.images?.teaser || ''}
+          src={imageUrl}
           alt={shot.title || 'Shot'}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -78,16 +85,16 @@ export default function ShotCard({ shot, showUser = false }: ShotCardProps) {
           <div className="flex items-center gap-3 text-sm text-gray-500 flex-shrink-0">
             <span className="flex items-center gap-1">
               <Heart className="w-4 h-4" />
-              {(shot.likes_count ?? 0).toLocaleString()}
+              {likesCount.toLocaleString()}
             </span>
             <span className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
-              {(shot.views_count ?? 0).toLocaleString()}
+              {viewsCount.toLocaleString()}
             </span>
-            {(shot.comments_count ?? 0) > 0 && (
+            {commentsCount > 0 && (
               <span className="flex items-center gap-1">
                 <MessageCircle className="w-4 h-4" />
-                {shot.comments_count}
+                {commentsCount}
               </span>
             )}
           </div>
