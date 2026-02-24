@@ -29,7 +29,7 @@ export const authOptions: AuthOptions = {
       authorization: {
         url: 'https://dribbble.com/oauth/authorize',
         params: {
-          scope: 'public upload comment write',
+          scope: 'public',
         },
       },
       token: 'https://dribbble.com/oauth/token',
