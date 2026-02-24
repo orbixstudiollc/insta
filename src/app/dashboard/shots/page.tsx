@@ -135,8 +135,8 @@ export default function ShotsPage() {
               >
                 <div className="w-24 h-18 rounded-lg overflow-hidden flex-shrink-0">
                   <img
-                    src={shot.images.teaser}
-                    alt={shot.title}
+                    src={shot.images?.teaser || shot.images?.normal || ''}
+                    alt={shot.title || 'Shot'}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -145,9 +145,9 @@ export default function ShotsPage() {
                     {shot.title}
                   </h3>
                   <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
-                    <span>{shot.likes_count.toLocaleString()} likes</span>
-                    <span>{shot.views_count.toLocaleString()} views</span>
-                    <span>{shot.comments_count} comments</span>
+                    <span>{(shot.likes_count ?? 0).toLocaleString()} likes</span>
+                    <span>{(shot.views_count ?? 0).toLocaleString()} views</span>
+                    <span>{shot.comments_count ?? 0} comments</span>
                   </div>
                   {shot.tags && shot.tags.length > 0 && (
                     <div className="flex gap-2 mt-2">

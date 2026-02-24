@@ -10,6 +10,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.dribbble.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudfront.net',
+      },
     ],
   },
 }

@@ -16,8 +16,8 @@ export default function ShotCard({ shot, showUser = false }: ShotCardProps) {
     <div className="shot-card group">
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
-          src={shot.images.normal}
-          alt={shot.title}
+          src={shot.images?.normal || shot.images?.teaser || ''}
+          alt={shot.title || 'Shot'}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -67,22 +67,24 @@ export default function ShotCard({ shot, showUser = false }: ShotCardProps) {
             </div>
           ) : (
             <span className="text-xs text-gray-400">
-              {formatDistanceToNow(new Date(shot.published_at), {
-                addSuffix: true,
-              })}
+              {shot.published_at
+                ? formatDistanceToNow(new Date(shot.published_at), {
+                    addSuffix: true,
+                  })
+                : ''}
             </span>
           )}
 
           <div className="flex items-center gap-3 text-sm text-gray-500 flex-shrink-0">
             <span className="flex items-center gap-1">
               <Heart className="w-4 h-4" />
-              {shot.likes_count.toLocaleString()}
+              {(shot.likes_count ?? 0).toLocaleString()}
             </span>
             <span className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
-              {shot.views_count.toLocaleString()}
+              {(shot.views_count ?? 0).toLocaleString()}
             </span>
-            {shot.comments_count > 0 && (
+            {(shot.comments_count ?? 0) > 0 && (
               <span className="flex items-center gap-1">
                 <MessageCircle className="w-4 h-4" />
                 {shot.comments_count}

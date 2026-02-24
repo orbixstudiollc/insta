@@ -52,11 +52,11 @@ export default function UserCard({ user, showStats = true }: UserCardProps) {
             <div className="flex items-center gap-4 mt-3 text-sm">
               <span className="flex items-center gap-1 text-gray-600">
                 <ImageIcon className="w-4 h-4" />
-                {user.shots_count} shots
+                {user.shots_count ?? 0} shots
               </span>
               <span className="text-gray-400">|</span>
               <span className="text-gray-600">
-                {user.followers_count.toLocaleString()} followers
+                {(user.followers_count ?? 0).toLocaleString()} followers
               </span>
             </div>
           )}

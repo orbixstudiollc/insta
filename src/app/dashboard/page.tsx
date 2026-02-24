@@ -28,22 +28,18 @@ export default function DashboardPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [userRes, shotsRes] = await Promise.all([
-          fetch('/api/dribbble/user'),
-          fetch('/api/dribbble/shots?per_page=6'),
+        // Fetch user and shots independently so one failure doesn't break the other
+        const [userResult, shotsResult] = await Promise.allSettled([
+          fetch('/api/dribbble/user').then(r => r.ok ? r.json() : null),
+          fetch('/api/dribbble/shots?per_page=6').then(r => r.ok ? r.json() : []),
         ])
 
-        if (!userRes.ok || !shotsRes.ok) {
-          throw new Error('Failed to fetch data')
+        if (userResult.status === 'fulfilled' && userResult.value) {
+          setUser(userResult.value)
         }
-
-        const [userData, shotsData] = await Promise.all([
-          userRes.json(),
-          shotsRes.json(),
-        ])
-
-        setUser(userData)
-        setRecentShots(shotsData)
+        if (shotsResult.status === 'fulfilled' && Array.isArray(shotsResult.value)) {
+          setRecentShots(shotsResult.value)
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {

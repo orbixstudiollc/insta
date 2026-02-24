@@ -129,10 +129,12 @@ export default function ProfilePage() {
                       @{user.links.twitter}
                     </a>
                   )}
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    Joined {format(new Date(user.created_at), 'MMMM yyyy')}
-                  </span>
+                  {user.created_at && (
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      Joined {format(new Date(user.created_at), 'MMMM yyyy')}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -158,7 +160,7 @@ export default function ProfilePage() {
               <ImageIcon className="w-6 h-6" />
             </div>
             <p className="text-2xl font-bold text-gray-900">
-              {user.shots_count.toLocaleString()}
+              {(user.shots_count ?? 0).toLocaleString()}
             </p>
             <p className="text-sm text-gray-500">Shots</p>
           </div>
@@ -168,7 +170,7 @@ export default function ProfilePage() {
               <FolderKanban className="w-6 h-6" />
             </div>
             <p className="text-2xl font-bold text-gray-900">
-              {user.projects_count.toLocaleString()}
+              {(user.projects_count ?? 0).toLocaleString()}
             </p>
             <p className="text-sm text-gray-500">Projects</p>
           </div>
@@ -178,7 +180,7 @@ export default function ProfilePage() {
               <Users className="w-6 h-6" />
             </div>
             <p className="text-2xl font-bold text-gray-900">
-              {user.followers_count.toLocaleString()}
+              {(user.followers_count ?? 0).toLocaleString()}
             </p>
             <p className="text-sm text-gray-500">Followers</p>
           </div>
@@ -188,7 +190,7 @@ export default function ProfilePage() {
               <Heart className="w-6 h-6" />
             </div>
             <p className="text-2xl font-bold text-gray-900">
-              {user.likes_received_count.toLocaleString()}
+              {(user.likes_received_count ?? 0).toLocaleString()}
             </p>
             <p className="text-sm text-gray-500">Likes Received</p>
           </div>
@@ -245,19 +247,19 @@ export default function ProfilePage() {
               <div className="flex justify-between">
                 <dt className="text-gray-500">Following</dt>
                 <dd className="font-medium text-gray-900">
-                  {user.followings_count.toLocaleString()} designers
+                  {(user.followings_count ?? 0).toLocaleString()} designers
                 </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-500">Shots Liked</dt>
                 <dd className="font-medium text-gray-900">
-                  {user.likes_count.toLocaleString()} shots
+                  {(user.likes_count ?? 0).toLocaleString()} shots
                 </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-500">Member Since</dt>
                 <dd className="font-medium text-gray-900">
-                  {format(new Date(user.created_at), 'MMM d, yyyy')}
+                  {user.created_at ? format(new Date(user.created_at), 'MMM d, yyyy') : 'N/A'}
                 </dd>
               </div>
             </dl>
